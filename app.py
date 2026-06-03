@@ -2,16 +2,17 @@ import streamlit as st
 from logic import WarehouseStack
 
 # --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Gudang LIFO Node", page_icon="🏢", layout="wide")
+st.set_page_config(page_title="Gudang LIFO Persisten", page_icon="🏢", layout="wide")
 
 # --- INISIALISASI SESSION STATE ---
-# Menyimpan instance class dari logic.py agar persisten antar refresh
+# Jika user melakukan refresh (F5), session_state kosong. 
+# Baris di bawah akan membuat objek baru, dan objek tersebut otomatis membaca file JSON yang tersimpan.
 if 'warehouse' not in st.session_state:
     st.session_state.warehouse = WarehouseStack()
 
 # --- HEADER TAMPILAN ---
-st.title("🏢 Sistem Gudang LIFO (Node/Linked List)")
-st.markdown("Simulasi struktur data Stack manual dengan pemisahan UI dan Logika yang ketat.")
+st.title("🏢 Sistem Gudang LIFO (Anti-Loss Data)")
+st.markdown("Data tetap aman tersimpan meskipun halaman browser Anda **direfresh (F5)**.")
 st.divider()
 
 # --- LAYOUT HALAMAN ---
@@ -30,8 +31,8 @@ with col_kontrol:
         if submit_insert:
             if new_item.strip():
                 st.session_state.warehouse.push(new_item.strip())
-                st.success(f"'{new_item}' berhasil dipush ke gudang!")
-                st.rerun()  # Refresh instan agar UI di kolom kanan update
+                st.success(f"'{new_item}' berhasil disimpan secara permanen!")
+                st.rerun()
             else:
                 st.error("Input tidak boleh kosong!")
 
@@ -67,7 +68,6 @@ with col_kontrol:
 with col_visual:
     st.header("📊 Visualisasi Gudang (Real-Time)")
     
-    # Menarik data melalui fungsi logic.py
     current_size = st.session_state.warehouse.size()
     top_item = st.session_state.warehouse.peek() or "Gudang Kosong"
     stack_data = st.session_state.warehouse.get_all()
@@ -83,13 +83,14 @@ with col_visual:
         st.info("Visualisasi kosong. Silakan insert barang melalui form di samping kiri.")
     else:
         # Merender tampilan dinamis
-        for i, item in enumerate(stack_data):
-            if i == 0:
-                # Menandai Node paling atas (Head)
-                st.success(f"**TOP (Keluar Pertama)** ➔ {item}", icon="🟢")
-            elif i == len(stack_data) - 1:
-                # Menandai Node paling bawah (Tail)
-                st.markdown(f"> 📦 {item} *(Dasar Gudang)*")
-            else:
-                # Node di tengah
-                st.markdown(f"> 📦 {item}")
+        with st.container(border=True):
+            for i, item in enumerate(stack_data):
+                if i == 0:
+                    st.success(f"**TOP (Keluar Pertama)** ➔ {item}", icon="🟢")
+                elif i == len(stack_data) - 1:
+                    st.markdown(f"📦 {item} *(Dasar Gudang)*")
+                else:
+                    st.markdown(f"📦 {item}")
+                
+                if i < len(stack_data) - 1:
+                    st.divider()
