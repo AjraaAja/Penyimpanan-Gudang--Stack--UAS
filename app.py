@@ -1,5 +1,5 @@
 import streamlit as st
-from backend import WarehouseStack
+from logic import WarehouseStack
 
 # Konfigurasi Halaman (Harus diletakkan paling atas)
 st.set_page_config(
