@@ -1,87 +1,95 @@
 import streamlit as st
 from logic import WarehouseStack
 
-# Konfigurasi Halaman (Harus diletakkan paling atas)
-st.set_page_config(
-    page_title="Sistem Gudang LIFO", 
-    page_icon="📦", 
-    layout="wide"
-)
+# --- KONFIGURASI HALAMAN ---
+st.set_page_config(page_title="Gudang LIFO Node", page_icon="🏢", layout="wide")
 
-# Inisialisasi session_state agar data stack tidak hilang saat auto-rerun Streamlit
+# --- INISIALISASI SESSION STATE ---
+# Menyimpan instance class dari logic.py agar persisten antar refresh
 if 'warehouse' not in st.session_state:
     st.session_state.warehouse = WarehouseStack()
 
-# Bagian Header
-st.title("📦 Sistem Manajemen Gudang (Stack)")
-st.markdown("Simulasi penyimpanan barang dengan metode **LIFO (Last In, First Out)**.")
-st.markdown("---")
+# --- HEADER TAMPILAN ---
+st.title("🏢 Sistem Gudang LIFO (Node/Linked List)")
+st.markdown("Simulasi struktur data Stack manual dengan pemisahan UI dan Logika yang ketat.")
+st.divider()
 
-# Membagi layar menjadi dua kolom
-col1, col2 = st.columns([1, 2])
+# --- LAYOUT HALAMAN ---
+col_kontrol, col_visual = st.columns([1, 2])
 
-# KOLOM KIRI: Kontrol Barang (Input & Eksekusi)
-with col1:
-    st.header("⚙️ Kontrol Operasi")
+# KOLOM KIRI: Form Input dan Manipulasi Data
+with col_kontrol:
+    st.header("⚙️ Kontrol Data")
     
-    # Form untuk Push (Tambah Barang)
-    with st.form("push_form", clear_on_submit=True):
-        st.subheader("Penerimaan Barang")
-        new_item = st.text_input("Nama Barang Baru:", placeholder="Misal: Monitor ASUS 24 Inch")
-        submit_push = st.form_submit_button("➕ Masukkan ke Gudang (Push)")
-
-        if submit_push:
+    # 1. INSERT DATA (FORM)
+    with st.form("insert_form", clear_on_submit=True):
+        st.subheader("📥 Insert (Push)")
+        new_item = st.text_input("Nama Barang:", placeholder="Ketik nama barang...")
+        submit_insert = st.form_submit_button("Tambah ke Tumpukan", use_container_width=True)
+        
+        if submit_insert:
             if new_item.strip():
                 st.session_state.warehouse.push(new_item.strip())
-                st.success(f"Berhasil menyimpan '{new_item}'!")
-                st.rerun() # Refresh tampilan
+                st.success(f"'{new_item}' berhasil dipush ke gudang!")
+                st.rerun()  # Refresh instan agar UI di kolom kanan update
             else:
-                st.warning("Nama barang tidak boleh kosong!")
+                st.error("Input tidak boleh kosong!")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Tombol untuk Pop (Ambil Barang)
-    st.subheader("Pengeluaran Barang")
-    st.info("Barang yang keluar adalah barang yang paling terakhir masuk.")
-    if st.button("➖ Ambil Barang Teratas (Pop)", use_container_width=True, type="primary"):
-        popped_item = st.session_state.warehouse.pop()
-        if popped_item:
-            st.success(f"Berhasil mengambil '{popped_item}' dari gudang!")
+    # 2. DELETE DATA
+    st.subheader("📤 Delete (Pop)")
+    if st.button("Ambil Barang Paling Atas", use_container_width=True, type="primary"):
+        popped = st.session_state.warehouse.pop()
+        if popped:
+            st.success(f"Berhasil mengambil '{popped}'!")
             st.rerun()
         else:
-            st.error("Gudang kosong! Tidak ada barang yang bisa diambil.")
+            st.warning("Gudang kosong! Tidak ada data yang bisa di-pop.")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # 3. TRAVERSAL / SEARCH DATA
+    st.subheader("🔍 Search Data")
+    search_query = st.text_input("Cari Barang:", placeholder="Nama barang yang dicari...")
+    if st.button("Cari Posisi", use_container_width=True):
+        if search_query.strip():
+            pos = st.session_state.warehouse.search(search_query.strip())
+            if pos != -1:
+                st.info(f"Barang '{search_query}' ditemukan di urutan ke-{pos} dari atas.")
+            else:
+                st.error(f"Barang '{search_query}' tidak ditemukan di dalam tumpukan.")
+        else:
+            st.warning("Masukkan nama barang untuk mencari.")
 
 
-# KOLOM KANAN: Visualisasi dan Status Gudang
-with col2:
-    st.header("📊 Status Gudang Saat Ini")
-
-    # Mengambil data dari backend
-    total_items = st.session_state.warehouse.size()
-    top_item = st.session_state.warehouse.peek() or "Tidak ada"
-    all_items = st.session_state.warehouse.get_all()
-
-    # Menampilkan Metrik/Statistik
-    m1, m2 = st.columns(2)
-    m1.metric("Total Barang di Gudang", f"{total_items} Unit")
-    m2.metric("Barang Teratas (Siap Diambil)", top_item)
-
-    st.markdown("### 🗄️ Visualisasi Tumpukan (Stack)")
+# KOLOM KANAN: Visualisasi Real-Time
+with col_visual:
+    st.header("📊 Visualisasi Gudang (Real-Time)")
     
-    # Menampilkan isi stack dengan gaya yang menarik
-    if not all_items:
-        st.info("Gudang saat ini kosong. Silakan masukkan barang dari panel kontrol di sebelah kiri.")
+    # Menarik data melalui fungsi logic.py
+    current_size = st.session_state.warehouse.size()
+    top_item = st.session_state.warehouse.peek() or "Gudang Kosong"
+    stack_data = st.session_state.warehouse.get_all()
+    
+    # Indikator Cepat (Metrics)
+    m1, m2 = st.columns(2)
+    m1.metric("Total Node (Barang)", f"{current_size} Unit")
+    m2.metric("Head Node (Paling Atas)", top_item)
+    
+    st.markdown("### 🗄️ Tumpukan Saat Ini")
+    
+    if not stack_data:
+        st.info("Visualisasi kosong. Silakan insert barang melalui form di samping kiri.")
     else:
-        # Container untuk memberikan efek box
-        with st.container(border=True):
-            for i, item in enumerate(all_items):
-                if i == 0:
-                    # Tampilan untuk barang paling atas (Top)
-                    st.markdown(f"### 🟢 **{item}** *(Top - Keluar Pertama)*")
-                else:
-                    # Tampilan untuk barang di bawahnya
-                    st.markdown(f"##### 📦 {item}")
-                
-                # Menambahkan garis pemisah antar barang kecuali barang paling bawah
-                if i < len(all_items) - 1:
-                    st.divider()
+        # Merender tampilan dinamis
+        for i, item in enumerate(stack_data):
+            if i == 0:
+                # Menandai Node paling atas (Head)
+                st.success(f"**TOP (Keluar Pertama)** ➔ {item}", icon="🟢")
+            elif i == len(stack_data) - 1:
+                # Menandai Node paling bawah (Tail)
+                st.markdown(f"> 📦 {item} *(Dasar Gudang)*")
+            else:
+                # Node di tengah
+                st.markdown(f"> 📦 {item}")
