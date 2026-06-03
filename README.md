@@ -20,8 +20,7 @@ Setiap barang yang masuk ke gudang dibungkus dalam sebuah objek bernama `Node`.
 
 Ketika sebuah barang di-*pop* (dihapus), penunjuk `next` akan diputus. Hal ini memungkinkan sistem pengumpulan sampah memori (*Garbage Collector*) pada Python untuk langsung membersihkan memori barang tersebut, sehingga program berjalan sangat efisien.
 
----
-1. Penjelasan kode program
+--
 ## 📂 Struktur Berkas (Project Structure)
 
 Pembuatan kode memisahkan antarmuka pengguna (UI) dan logika dasar secara tegas (*Separation of Concerns*):
