@@ -11,8 +11,8 @@ if 'warehouse' not in st.session_state:
     st.session_state.warehouse = WarehouseStack()
 
 # --- HEADER TAMPILAN ---
-st.title("🏢 Sistem Gudang LIFO (Anti-Loss Data)")
-st.markdown("Data tetap aman tersimpan meskipun halaman browser Anda **direfresh (F5)**.")
+st.title("🏢 Sistem Gudang LIFO")
+st.markdown("Data tetap aman tersimpan meskipun halaman browser Anda **direfresh**.")
 st.divider()
 
 # --- LAYOUT HALAMAN ---
@@ -46,7 +46,7 @@ with col_kontrol:
             st.success(f"Berhasil mengambil '{popped}'!")
             st.rerun()
         else:
-            st.warning("Gudang kosong! Tidak ada data yang bisa di-pop.")
+            st.warning("Gudang kosong! Tidak ada data yang bisa diambil.")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
