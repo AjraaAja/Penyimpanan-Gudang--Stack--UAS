@@ -24,14 +24,14 @@ with col_kontrol:
     
     # 1. INSERT DATA (FORM)
     with st.form("insert_form", clear_on_submit=True):
-        st.subheader("📥 Insert (Push)")
+        st.subheader("📥 Insert")
         new_item = st.text_input("Nama Barang:", placeholder="Ketik nama barang...")
         submit_insert = st.form_submit_button("Tambah ke Tumpukan", use_container_width=True)
         
         if submit_insert:
             if new_item.strip():
                 st.session_state.warehouse.push(new_item.strip())
-                st.success(f"'{new_item}' berhasil disimpan secara permanen!")
+                st.success(f"'{new_item}' berhasil ditambahkan ke dalam tumpukan!")
                 st.rerun()
             else:
                 st.error("Input tidak boleh kosong!")
@@ -39,7 +39,7 @@ with col_kontrol:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 2. DELETE DATA
-    st.subheader("📤 Delete (Pop)")
+    st.subheader("📤 Delete")
     if st.button("Ambil Barang Paling Atas", use_container_width=True, type="primary"):
         popped = st.session_state.warehouse.pop()
         if popped:
@@ -66,7 +66,7 @@ with col_kontrol:
 
 # KOLOM KANAN: Visualisasi Real-Time
 with col_visual:
-    st.header("📊 Visualisasi Gudang (Real-Time)")
+    st.header("📊 Visualisasi Gudang")
     
     current_size = st.session_state.warehouse.size()
     top_item = st.session_state.warehouse.peek() or "Gudang Kosong"
@@ -74,8 +74,8 @@ with col_visual:
     
     # Indikator Cepat (Metrics)
     m1, m2 = st.columns(2)
-    m1.metric("Total Node (Barang)", f"{current_size} Unit")
-    m2.metric("Head Node (Paling Atas)", top_item)
+    m1.metric("Total Barang", f"{current_size} Unit")
+    m2.metric("Barang Paling Atas", top_item)
     
     st.markdown("### 🗄️ Tumpukan Saat Ini")
     
