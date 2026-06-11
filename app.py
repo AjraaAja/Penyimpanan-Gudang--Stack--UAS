@@ -24,7 +24,7 @@ with col_kontrol:
     
     # 1. INSERT DATA (FORM)
     with st.form("insert_form", clear_on_submit=True):
-        st.subheader("📥 Insert")
+        st.subheader("📥 Masukkan Barang")
         new_item = st.text_input("Nama Barang:", placeholder="Ketik nama barang...")
         submit_insert = st.form_submit_button("Tambah ke Tumpukan", use_container_width=True)
         
@@ -39,7 +39,7 @@ with col_kontrol:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 2. DELETE DATA
-    st.subheader("📤 Delete")
+    st.subheader("📤 Ambil Barang")
     if st.button("Ambil Barang Paling Atas", use_container_width=True, type="primary"):
         popped = st.session_state.warehouse.pop()
         if popped:
@@ -51,7 +51,7 @@ with col_kontrol:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 3. TRAVERSAL / SEARCH DATA
-    st.subheader("🔍 Search Data")
+    st.subheader("🔍 Cari Barang")
     search_query = st.text_input("Cari Barang:", placeholder="Nama barang yang dicari...")
     if st.button("Cari Posisi", use_container_width=True):
         if search_query.strip():
