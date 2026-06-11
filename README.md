@@ -29,7 +29,24 @@ Pembuatan kode memisahkan antarmuka pengguna (UI) dan logika dasar secara tegas 
 * `app.py` : Berisi kode *Frontend* menggunakan Streamlit untuk interaksi pengguna secara *real-time*.
 * `warehouse_data.json` : Berkas penyimpanan data (*database* lokal) yang terbuat secara otomatis untuk mencegah hilangnya data saat halaman dimuat ulang (*refresh*).
 
----
+📥 Clone Proyek
+Untuk mendapatkan salinan proyek ini ke komputer lokal, gunakan perintah berikut pada Terminal atau Command Prompt (CMD):
+Bash
+git clone https://github.com/AjraaAja/Penyimpanan-Gudang--Stack--UAS.git
+Kemudian masuk ke direktori proyek:
+Bash
+cd Penyimpanan-Gudang--Stack--UAS
+Setelah itu, instal dependensi yang diperlukan dan jalankan aplikasi menggunakan Streamlit:
+Bash
+pip install streamlit
+streamlit run app.py
+Atau
+jalankan perintah berikut untuk mengunduh kode program ini ke komputermu:
+bash
+git clone [https://github.com/username-github-kalian/nama-repositori.git](https://github.com/username-github-kalian/nama-repositori.git)
+cd nama-repositori
+(Catatan: Jangan lupa ubah URL di atas dengan link repositori GitHub kalian yang sebenarnya).
+
 
 ## 🚀 Cara Instalasi dan Menjalankan Program
 
@@ -64,19 +81,6 @@ Visualisasi Real-Time: Penambahan dan pengurangan barang langsung terlihat di la
 Persistensi Data (Anti-Hilang): Data gudang otomatis tersimpan di .json. Jika browser tertutup atau di-refresh tidak sengaja, tumpukan barang tetap aman dan kembali seperti semula.
 
 Fitur Pencarian: Mampu mencari posisi spesifik suatu barang di dalam tumpukan yang besar.
-
-📥 Clone Proyek
-Untuk mendapatkan salinan proyek ini ke komputer lokal, gunakan perintah berikut pada Terminal atau Command Prompt (CMD):
-Bash
-git clone https://github.com/AjraaAja/Penyimpanan-Gudang--Stack--UAS.git
-Kemudian masuk ke direktori proyek:
-Bash
-cd Penyimpanan-Gudang--Stack--UAS
-Setelah itu, instal dependensi yang diperlukan dan jalankan aplikasi menggunakan Streamlit:
-Bash
-pip install streamlit
-streamlit run app.py
-
 
 🤝 Kontribusi pada Proyek
 Proyek Sistem Manajemen Gudang (Stack LIFO) ini dikembangkan secara kolaboratif dengan pembagian tugas sebagai berikut:
