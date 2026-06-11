@@ -64,3 +64,26 @@ Visualisasi Real-Time: Penambahan dan pengurangan barang langsung terlihat di la
 Persistensi Data (Anti-Hilang): Data gudang otomatis tersimpan di .json. Jika browser tertutup atau di-refresh tidak sengaja, tumpukan barang tetap aman dan kembali seperti semula.
 
 Fitur Pencarian: Mampu mencari posisi spesifik suatu barang di dalam tumpukan yang besar.
+
+📥 Clone Proyek
+Untuk mendapatkan salinan proyek ini ke komputer lokal, gunakan perintah berikut pada Terminal atau Command Prompt (CMD):
+Bash
+git clone https://github.com/AjraaAja/Penyimpanan-Gudang--Stack--UAS.git
+Kemudian masuk ke direktori proyek:
+Bash
+cd Penyimpanan-Gudang--Stack--UAS
+Setelah itu, instal dependensi yang diperlukan dan jalankan aplikasi menggunakan Streamlit:
+Bash
+pip install streamlit
+streamlit run app.py
+
+
+🤝 Kontribusi pada Proyek
+Proyek Sistem Manajemen Gudang (Stack LIFO) ini dikembangkan secara kolaboratif dengan pembagian tugas sebagai berikut:
+Nama
+Kontribusi
+Azzumardhi Azzra
+Merancang dan mengimplementasikan logika utama struktur data Stack berbasis Linked List pada logic.py, serta mengembangkan mekanisme persistensi data menggunakan warehouse_data.json.
+Abdillah Az Jauzaqi
+Mengembangkan antarmuka pengguna (frontend) berbasis Streamlit pada app.py, termasuk visualisasi data, formulir interaksi, dan pengelolaan tampilan aplikasi secara real-time.
+Setiap anggota berkontribusi sesuai dengan tanggung jawabnya untuk menghasilkan aplikasi yang menerapkan konsep Last In, First Out (LIFO) secara efektif serta memberikan pengalaman penggunaan yang interaktif dan mudah dipahami.
